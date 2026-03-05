@@ -245,7 +245,9 @@ export class GoogleSheetsExpenseWriter {
         continue;
       }
 
-      const insertAt = headingRow + 1;
+      // Insert at headingRow + 2 (below the template formatting row at headingRow + 1).
+      // inheritFromBefore then copies from the template row, not the colored heading.
+      const insertAt = headingRow + 2;
       const data = txns.map((t) => this.buildSalaryRow(t));
       await this.sheetsAdapter.insertRowsAt(spreadsheetId, sheetName, insertAt, data);
       totalInserted += txns.length;
